@@ -1,6 +1,6 @@
 package com.splitwise.repositories.interfaces;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface IRepository<E, Id> {
@@ -10,7 +10,7 @@ public interface IRepository<E, Id> {
     // Read
     public Optional<E> findById(Id id);
 
-    public ArrayList<E> findAll();
+    public List<E> findAll();
 
     // Update
     public void save(E obj);

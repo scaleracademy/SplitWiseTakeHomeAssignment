@@ -1,35 +1,33 @@
 package com.splitwise.repositories.inmemory;
 
 import com.splitwise.models.Expense;
+import com.splitwise.models.User;
+import com.splitwise.repositories.inmemory.proxies.ExpenseProxy;
 import com.splitwise.repositories.interfaces.ExpenseRepository;
+import com.splitwise.repositories.interfaces.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 
-public class InMemoryExpenseRepository implements ExpenseRepository {
-    @Override
-    public void create(Expense obj) {
+public class InMemoryExpenseRepository
+        extends InMemoryRepository<Expense>
+        implements ExpenseRepository {
+    UserRepository userRepository;
 
+    public InMemoryExpenseRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<Expense> findById(Long aLong) {
-        return Optional.empty();
+    public void create(Expense expense) {
+        super.create(expense);
+        for(User participant: expense.getParticipants()) {
+            participant.getExpenses().add(expense);
+        }
     }
 
     @Override
-    public ArrayList<Expense> findAll() {
-        return null;
-    }
-
-    @Override
-    public void save(Expense obj) {
-
-    }
-
-    @Override
-    public void delete(Long aLong) {
-
+    public List<ExpenseProxy> findAll() {
+        return super.findAll();
     }
 }
