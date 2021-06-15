@@ -27,7 +27,6 @@ public class Expense extends Auditable {
     @Setter
     private Set<User> participants = new HashSet<>();
     @Getter
-    @Setter
     private Map<User, Double> amountsPaid = new HashMap<>();
     @Getter
     @Setter
@@ -37,5 +36,11 @@ public class Expense extends Auditable {
         this.date = date;
         this.description = description;
         this.participants.addAll(participants);
+    }
+
+    public void setAmountsPaid(Map<User, Double> amountsPaid) {
+        // make sure that the amounts add up to a certain value
+        // if the total amount is set, then make sure they add up to the total amount
+        this.amountsPaid = amountsPaid;
     }
 }

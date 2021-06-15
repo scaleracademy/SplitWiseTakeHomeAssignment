@@ -44,4 +44,13 @@ public class User extends Auditable {
         // you will have some logic here
         return 0.0;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + getId() + '\'' +
+                "hashedSaltedPassword='" + hashedSaltedPassword + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

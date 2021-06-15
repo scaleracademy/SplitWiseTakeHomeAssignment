@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class UserController {
     UserRepository userRepository;
-    PasswordEncoder passwordEncoder = null;
+    PasswordEncoder passwordEncoder;
     SettleUserStrategy settleUserStrategy;
 
     public UserController(UserRepository userRepository) {
