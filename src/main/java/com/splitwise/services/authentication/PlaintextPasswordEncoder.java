@@ -1,6 +1,8 @@
 package com.splitwise.services.authentication;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class PlaintextPasswordEncoder implements PasswordEncoder {
     private static PlaintextPasswordEncoder INSTANCE;
 

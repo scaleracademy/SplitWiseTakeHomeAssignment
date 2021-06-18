@@ -1,35 +1,32 @@
 package com.splitwise.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "expenses")
 public class Expense extends Auditable {
-    @Getter
-    @Setter
     private String description;
-    @Getter
-    @Setter
     private Date date;
 
-    @Getter
-    @Setter
     private Double totalAmount;
-    @Getter
-    @Setter
     private Boolean isSettled;
-    @Getter
-    @Setter
+    @ManyToOne
     private Group group;
 
-    @Getter
-    @Setter
+    @ManyToMany
     private Set<User> participants = new HashSet<>();
-    @Getter
+
+    @ElementCollection
     private Map<User, Double> amountsPaid = new HashMap<>();
-    @Getter
-    @Setter
+    @ElementCollection
     private Map<User, Double> amountsOwed = new HashMap<>();
 
     public Expense(Date date, String description, Set<User> participants) {

@@ -1,19 +1,21 @@
 package com.splitwise.services.console.commands;
 
-import com.splitwise.Splitwise;
 import com.splitwise.controllers.UserController;
 import com.splitwise.dtos.UserDTO;
 import com.splitwise.models.User;
 import com.splitwise.services.console.ConsoleConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class RegisterUserCommand implements ICommand {
-    UserController userController;
+    final UserController userController;
 
-    public RegisterUserCommand(Splitwise splitwise) {
-        this.userController = splitwise.getUserController();
+    @Autowired
+    public RegisterUserCommand(UserController userController) {
+        this.userController = userController;
     }
 
     @Override

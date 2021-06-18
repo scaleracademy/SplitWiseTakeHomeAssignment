@@ -1,19 +1,21 @@
 package com.splitwise.services.console.commands;
 
-import com.splitwise.Splitwise;
-import com.splitwise.services.authentication.AuthenticationContext;
+import com.splitwise.repositories.interfaces.UserRepository;
 import com.splitwise.services.authentication.ConsoleAuthenticationContext;
 import com.splitwise.services.console.handlers.CommandHandler;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AuthenticatedCommandHandler
         extends CommandHandler
         implements ICommand {
+
     ConsoleAuthenticationContext authenticationContext;
 
-    public AuthenticatedCommandHandler(Splitwise splitwise) {
-        this.authenticationContext = new ConsoleAuthenticationContext(splitwise.getUserRepository());
+    public AuthenticatedCommandHandler(UserRepository userRepository) {
+        this.authenticationContext = new ConsoleAuthenticationContext(userRepository);
     }
 
     @Override

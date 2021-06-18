@@ -10,24 +10,19 @@ import com.splitwise.repositories.interfaces.UserRepository;
 import com.splitwise.services.authentication.AuthenticationContext;
 import com.splitwise.services.authentication.PasswordEncoder;
 import com.splitwise.services.settle.user.SettleUserStrategy;
+import org.springframework.stereotype.Controller;
 
 import java.util.Set;
 
-
+@Controller
 public class UserController {
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
-    SettleUserStrategy settleUserStrategy;
+    final UserRepository userRepository;
+    final PasswordEncoder passwordEncoder;
+    final SettleUserStrategy settleUserStrategy;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder, SettleUserStrategy settleUserStrategy) {
         this.userRepository = userRepository;
-    }
-
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    public void setSettleUserStrategy(SettleUserStrategy settleUserStrategy) {
         this.settleUserStrategy = settleUserStrategy;
     }
 
@@ -37,7 +32,7 @@ public class UserController {
     public User register(UserDTO details) {
         User user = new User();
 
-        if (userRepository.findByUsername(details.username).isPresent()) {
+        if (userRepository.findUserByUsername(details.username).isPresent()) {
             throw new DuplicateUsernameException("Username already exists!");
         }
 
@@ -47,7 +42,7 @@ public class UserController {
         String saltedHashedPassword = passwordEncoder.encode(details.password, details.username);
         user.setHashedSaltedPassword(saltedHashedPassword);
 
-        userRepository.create(user);
+        userRepository.save(user);
         return user;
     }
 

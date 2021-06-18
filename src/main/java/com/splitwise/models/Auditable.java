@@ -2,32 +2,44 @@ package com.splitwise.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
+@Getter
+@Setter
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
-    @Getter
-    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Getter
-    @Setter
+
+    @Column(updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date created;
-    @Getter
-    @Setter
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date modified;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Auditable auditable = (Auditable) o;
+        if (id == null || auditable.id == null) return false;
         return id.equals(auditable.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id == null ? super.hashCode() : id.hashCode();
     }
 
     @Override

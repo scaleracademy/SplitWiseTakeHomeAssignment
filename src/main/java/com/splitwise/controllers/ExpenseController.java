@@ -13,12 +13,14 @@ import com.splitwise.repositories.interfaces.UserRepository;
 import com.splitwise.services.authentication.AuthenticationContext;
 import com.splitwise.services.paymentstrategy.PaymentStrategy;
 import com.splitwise.services.splitstrategy.SplitStrategy;
+import org.springframework.stereotype.Controller;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Controller
 public class ExpenseController {
     UserRepository userRepository;
     ExpenseRepository expenseRepository;
@@ -56,7 +58,7 @@ public class ExpenseController {
         );
         splitStrategy.calculateAmountsOwed(expense);
         paymentStrategy.calculateAmountsPaid(expense);
-        expenseRepository.create(expense);
+        expenseRepository.save(expense);
         return expense;
     }
 
@@ -84,7 +86,7 @@ public class ExpenseController {
         expense.setGroup(group);
         splitStrategy.calculateAmountsOwed(expense);
         paymentStrategy.calculateAmountsPaid(expense);
-        expenseRepository.create(expense);
+        expenseRepository.save(expense);
         return expense;
     }
 
@@ -145,6 +147,6 @@ public class ExpenseController {
         if (!expense.getParticipants().contains(user))
             throw new ExpenseNotFoundException("You're not a participant in any such expense");
 
-        expenseRepository.delete(expenseId);
+        expenseRepository.delete(expense);
     }
 }

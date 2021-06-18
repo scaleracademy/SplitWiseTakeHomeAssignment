@@ -9,24 +9,22 @@ import com.splitwise.repositories.interfaces.GroupRepository;
 import com.splitwise.repositories.interfaces.UserRepository;
 import com.splitwise.services.authentication.AuthenticationContext;
 import com.splitwise.services.settle.group.SettleGroupStrategy;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+@Controller
 public class GroupController {
-    UserRepository userRepository;
-    GroupRepository groupRepository;
-    SettleGroupStrategy settleGroupStrategy;
+    final UserRepository userRepository;
+    final GroupRepository groupRepository;
+    final SettleGroupStrategy settleGroupStrategy;
 
     public GroupController(UserRepository userRepository,
-                           GroupRepository groupRepository) {
+                           GroupRepository groupRepository, SettleGroupStrategy settleGroupStrategy) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
-    }
-
-    public void setSettleGroupStrategy(SettleGroupStrategy settleGroupStrategy) {
         this.settleGroupStrategy = settleGroupStrategy;
     }
 
@@ -49,7 +47,7 @@ public class GroupController {
                 user,
                 participants
         );
-        groupRepository.create(group);
+        groupRepository.save(group);
         return group;
     }
 
@@ -90,7 +88,7 @@ public class GroupController {
         if (!group.getAdmin().equals(user)) {
             throw new CannotModifyGroupException("You're not the admin of the group");
         }
-        groupRepository.delete(groupId);
+        groupRepository.delete(group);
     }
 
 

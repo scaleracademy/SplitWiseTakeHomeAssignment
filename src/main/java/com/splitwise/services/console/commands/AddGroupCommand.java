@@ -1,18 +1,20 @@
 package com.splitwise.services.console.commands;
 
-import com.splitwise.Splitwise;
 import com.splitwise.controllers.GroupController;
 import com.splitwise.models.Group;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class AddGroupCommand extends AbstractAuthenticatedCommand {
-    GroupController groupController;
+    final GroupController groupController;
 
-    public AddGroupCommand(Splitwise splitwise) {
-        this.groupController = splitwise.getGroupController();
+    @Autowired
+    public AddGroupCommand(GroupController groupController) {
+        this.groupController = groupController;
     }
 
     @Override

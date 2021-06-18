@@ -1,30 +1,33 @@
 package com.splitwise.models;
 
 import com.splitwise.exceptions.validations.InvalidUsernameException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
 public class User extends Auditable {
-    @Getter
-    @Setter
     private String fullname;
-    @Getter
-    @Setter
     private String hashedSaltedPassword;
-    @Getter
     private String username;
-    @Getter
-    @Setter
     private String phoneNumber;
 
-    @Getter
-    @Setter
+    @ManyToMany(mappedBy = "participants")
     private Set<Expense> expenses = new HashSet<>();
-    @Getter
-    @Setter
+
+    @ManyToMany(mappedBy = "members")
     private Set<Group> groups = new HashSet<>();
 
     public void setUsername(String username) {
